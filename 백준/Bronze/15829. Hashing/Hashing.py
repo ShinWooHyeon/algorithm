@@ -1,8 +1,6 @@
-from string import ascii_lowercase
-alp=list(ascii_lowercase)
 a=int(input())
 b=input()
 s=0
 for k in range(a):
-    s+=(alp.index(b[k])+1)*(31**k)
+    s+=(ord(b[k])-96)*(31**k)
 print(s)    
