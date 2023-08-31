@@ -1,6 +1,6 @@
 # [level 4] 무지의 먹방 라이브 - 42891 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42891) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42891?language=python3#) 
 
 ### 성능 요약
 
