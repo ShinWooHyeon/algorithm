@@ -1,30 +1,29 @@
-from sys import stdin
+# 플로이드
+# n개의 도시 m개의 버스 도시 a에서 b로 가는 필요한 비용의 최솟값 
+import sys
+input =sys.stdin.readline
+n = int(input())
+m = int(input())
+inf = int(1e9)
 
-input = stdin.readline
+graph= [[inf]* (n+1) for _ in range (n+1)]
 
-n = int(input()) # 도시의 개수
-m = int(input()) # 버스의 개수
-INF = int(1e9)
-graph = [[INF] * (n+1) for _ in range(n+1)]
-
-for i in range(1, n+1):
-    for j in range(1, n+1):
-        if i == j:
-            graph[i][j] = 0
-
-for _ in range(m):
-    a, b, c = map(int, input().split())
+for _ in range (m):
+    a, b, c = map(int, input().strip().split())
     if graph[a][b] > c:
         graph[a][b] = c
+for i in range (1, n + 1):
+    graph[i][i] = 0
 
-for k in range(1, n+1):
-    for a in range(1, n+1):
-        for b in range(1, n+1):
-            graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b])
+# 플로이드 워셜 
+for k in range (1, n + 1):
+    for a in range (1, n + 1):
+        for b in range (1, n + 1):
+            graph[a][b] = min(graph[a][b] ,graph[a][k] + graph[k][b])
 
-for i in range(1, n+1):
-    for j in range(1, n+1):
-        if graph[i][j] == INF: #만약, i에서 j로 갈 수 없는 경우에는 그 자리에 0을 출력한다.
+for i in range (1, n+1):
+    for j in range (1, n+1):
+        if graph[i][j] == inf :
             print(0, end=' ')
         else:
             print(graph[i][j], end=' ')
