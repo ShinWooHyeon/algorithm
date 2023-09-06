@@ -3,33 +3,32 @@ full_sentence=""
 for sentence in sys.stdin: # ctrl+D 입력까지 모든 줄을 입력 받는다
     full_sentence+=sentence
  
-result_sentence=full_sentence.split() # 다중 공백 제거 및 단어 별 리스트화
- 
-hr=""
-temp_list=[]
-temp_line_text=""
-for word in result_sentence : # 단어별 탐색
-    if word=='<br>' : # <br> 태그면 지금까지 출력해야할 문장 출력 후 '줄바꿈'
-        temp_line_text = ' '.join(temp_list)
-        temp_list = []
-        print(temp_line_text)
-    elif word=='<hr>' : # 구분선 출력
-        hr=""
-        if len(temp_list)!=0 : # 첫지점에서 구분선 출력이 아니라면, 지금까지 출력해야할 문장 출력 후 구분선 출력
-            temp_line_text=' '.join(temp_list)
-            temp_list=[]
-            print(temp_line_text)
-        for _ in range(0, 80):
-            hr+='-'
-        print(hr)
-    else :
-        temp_list.append(word) # 단어들이면 계속 합쳐준다
-        temp_line_text=' '.join(temp_list)
-        if len(temp_line_text)>80 : # 합치다가 80줄이 넘으면
-            temp_list.pop(-1) # 넘는 단어 빼고
-            temp_line_text = ' '.join(temp_list) # 다시 합쳐서 출력
-            print(temp_line_text)
-            temp_list=[]
-            temp_list.append(word) # 다음 줄은 넘는 단어부터 시작
-temp_line_text=' '.join(temp_list) # 마지막 줄 출력
-print(temp_line_text)
+result_sentence=full_sentence.split() # 다중 공백 제거 및 단어 별 리스트화 # 이미 공백은 제거된 상태
+
+hr = '-' * 80
+word_list = []
+sentece=''
+for word in result_sentence:
+    if word =='<br>': #확인한 단어가 br이므로 지금까지 기록해둔 단어들을 출력한다 프린트 후 자동으로 개행되니까
+        sentence = ' '.join(word_list)
+        word_list=[]
+        print(sentence)
+    elif word == '<hr>':
+        if word_list != []:
+            sentence = ' '.join(word_list) 
+            word_list=[]
+            print(sentence)
+        print(hr) #hr은 첫줄이든 첫줄 아니든 무조건 출력하니까
+
+    else:
+        word_list.append(word)
+        sentence = ' '.join(word_list)
+        if len(sentence) > 80:
+            next_word = word_list.pop(-1)
+            sentence = ' '.join(word_list)
+            print(sentence)
+            word_list=[next_word]
+        
+# while문 다돌면 마지막 문장이 있을거임
+sentence= ' '.join(word_list)
+print(sentence)
