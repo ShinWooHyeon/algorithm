@@ -1,14 +1,20 @@
-n = int(input())
-s = []
-for i in range(n):
-    first, second = map(int, input().split())
-    s.append([first, second])
-s = sorted(s, key=lambda a: a[0])
-s = sorted(s, key=lambda a: a[1])
-last = 0
+# 백준 회의실
+# 항상 끝나는 시간이 가장 적은 
+import heapq
+N = int(input())
+schedule = []
+for i in range (N):
+    a, b = map(int, input().split())
+    heapq.heappush(schedule,(b, a))
+
+# 끝나는 시간이 첫번 째 요소이다 현재
+
+now = 0
 cnt = 0
-for i, j in s:
-    if i >= last:
+while schedule:
+    end, start= heapq.heappop(schedule)
+    if start >= now:
         cnt += 1
-        last = j
+        now = end
+
 print(cnt)
