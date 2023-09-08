@@ -1,45 +1,39 @@
+# 백준 최단경로
 import sys
 import heapq
+input =sys.stdin.readline
 
-input = sys.stdin.readline
-INF = int(1e9)
+v, e = map(int, input().split())
+k = int(input())
+inf = 1e9
+# 거리담을 리스트
+distance =[inf] * (v + 1)
+
+
+# 그래프를 입력받는다
+graph= [[] for _ in range (v+1)]
+
+for i in range (e):
+    a, b, c = map(int, input().split())
+    graph[a].append((b, c))
+
+# 다익스트라를 정의한다
 def dijkstra(start):
-    q= []
-    heapq.heappush(q,(0,start))
+    q = []
     distance[start] = 0
-
+    heapq.heappush(q, (0, start))
     while q:
         dist, now = heapq.heappop(q)
-
-        if distance[now] < dist:
+        if dist > distance[now]:
             continue
-
-        #현재 노드와 연결된 인접 노드 확인
         for i in graph[now]:
-            cost =dist+ i[1]
-            if cost < distance[i[0]] :
+            cost = dist +i[1]
+            if cost < distance[i[0]]:
                 distance[i[0]] = cost
-                heapq.heappush(q,(cost,i[0]))
-
-
-#V == 5일 때 1~5까지 노드가 있는거임.
-V, E = map(int,input().split())
-
-snode = int(input()) #시작 노드
-
-graph = [[] for _ in range(V+1)]
-distance = [INF] * (V+1) #최단 거리 테이블
-#연결 정보 입력
-for _ in range(E):
-    u,v,w = map(int,input().split())
-    graph[u].append((v,w))
-
-
-dijkstra(snode)
-
-#i번째 줄에 i번 정점으로의 최단 경로의 경로값을 출력
-for i in range(1,V+1):
-    if distance[i] == INF:
-        print("INF")
-    else:
+                heapq.heappush(q, (cost, i[0]))
+dijkstra(k)
+for i in range (1, v+1):
+    if distance[i] != inf:       
         print(distance[i])
+    else:
+        print('INF')
