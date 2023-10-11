@@ -1,25 +1,13 @@
-# 퇴사
-# dp[i]를 i 번째 날 ~ n일 까지 얻을 수 있는 최대 이익으로 설정
+# 백준 퇴사
+# 동적프로그래밍, n일차에 얻는 수익을 지속적으로 갱신한다
 n = int(input())
-t = [] # 상담시간 정리
-p = [] # 상담금액 정리
-dp = [0] *(n+1)
-max_value = 0
-
-for _ in range (n) :
-    x , y = map(int, input().split())
-    t.append (x)
-    p.append (y)
-
-
-for i in range (n-1, -1, -1):
-    time= t[i] + i # i는 인덱스이므로 날짜 -1이고 시간 t를 더하면 time은 i일의 상담이 끝난 다음 날 
-    # 상담이 기간안에 끝난 경우 
-    if time <= n: # 인덱스니까 끝난 다음날이 n+1일이므로 인덱스는 n까지 가능하다 
-        # 현재까지의 최고 이익은 다음과 같이 계산 된다
-        dp[i]= max(dp[time] +p[i] ,max_value)
-        max_value= dp[i]
-    else:
-        dp[i] = max_value # 뭘 더 더하지 않고 그냥 현재까지 기록된 최댓값이다
+dp = [0] * (n + 1)
+for i in range (1, n + 1):
+    t, p = map(int, input().split())
+    # 자신의 날짜에 dp 값과 자기 앞 값의 수치 중 더 큰 값을 dp 값으로 가진다
+    dp[i] = max(dp[i], dp[i-1])
+    # i + t일이 끝나고 얻는 수익은 기존에 dp에 기록되어있는 값과 현재 날짜까지 수익 + 일하고 얻는 수익 중 큰 값으로 갱신
     
-print(max_value)
+    if (i + t - 1) <= n   :
+        dp[i + t - 1] = max( dp[i-1]+ p, dp[i + t - 1])
+print(max(dp))
