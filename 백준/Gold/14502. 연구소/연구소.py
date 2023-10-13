@@ -25,7 +25,7 @@ def comb (array, n):
         return [[]]
     for i in range(len(array)):
         elem = array[i]
-        for j in comb(array[ :i] + array[i + 1 :], n - 1) :
+        for j in comb(array[i + 1 :], n - 1) :
             result.append([elem] + j)  
     return result
 # 조합 함수를 선언하고 설치가능한 벽의 경우들을 후보리스트로 만든다
